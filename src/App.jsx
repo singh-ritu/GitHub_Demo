@@ -2,12 +2,23 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import axios from "axios";
 
 function App() {
-  const fetchData = () => {
-    fetch("https://api.github.com/users/singh-ritu")
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+  const [username, setUsername] = useState("");
+
+  const handleChange = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const fetchData = (e) => {
+    // fetch("https://api.github.com/users/singh-ritu")
+    //   .then((res) => res.json())
+    //   .then((data) => console.log(data));
+    e.preventDefault();
+    const res = axios.get(`https://api.github.com/users/${username}`);
+    console.log(res);
+    console.log(username);
   };
   return (
     <div>
@@ -22,7 +33,12 @@ function App() {
       </div>
       <div>
         <form className="search-user">
-          <input type="text" placeholder="Enter a Username..." />
+          <input
+            type="text"
+            placeholder="Enter a Username..."
+            value={username}
+            onChange={handleChange}
+          />
           <button onClick={fetchData}>Search</button>
         </form>
       </div>
