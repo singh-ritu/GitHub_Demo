@@ -4,11 +4,13 @@ import "./App.css";
 import axios from "axios";
 import Home from "./components/Home";
 import Repositories from "./components/Repositories";
+import Gist from "./components/Gist";
+import Followers from "./components/Followers";
 
 function App() {
   const [username, setUsername] = useState("");
   const [githubUser, setGithubUser] = useState({});
-  const [repos, setRepos] = useState([]);
+  const [buttonText, setButtonText] = useState("Home");
 
   const handleChange = (e) => {
     setUsername(e.target.value);
@@ -25,41 +27,45 @@ function App() {
     setGithubUser(res.data);
   };
 
-  const handleRepos = () => {
-    setRepos(<Repositories />);
-  };
-
   return (
     <div>
       <div className="Heading">
         <h1>GITHUB VIEWER</h1>
       </div>
       <div className="buttons">
-        <button>HOME</button>
-        <button onClick={handleRepos} value={repos}>
+        <button onClick={() => setButtonText("Home")}>HOME</button>
+        <button onClick={() => setButtonText("Repositories :")}>
           REPOSITORIES
         </button>
-        <button>GIST</button>
-        <button>FOLLOWERS</button>
+        <button onClick={() => setButtonText("Gist")}>GIST</button>
+        <button onClick={() => setButtonText("Follower")}>FOLLOWERS</button>
       </div>
       <div>
-        <form className="search-user">
-          <input
-            type="text"
-            placeholder="Enter a Username..."
-            value={username}
-            onChange={handleChange}
+        {buttonText === "Home" && (
+          <form className="search-user">
+            <input
+              type="text"
+              placeholder="Enter a Username..."
+              value={username}
+              onChange={handleChange}
+            />
+            <button onClick={fetchData}>Search</button>
+          </form>
+        )}
+        {buttonText === "Home" && Object.keys(githubUser).length > 0 && (
+          <Home
+            name={githubUser.login}
+            avatar={githubUser.avatar_url}
+            userName={githubUser.name}
+            userCompany={githubUser.company}
+            userFollowers={githubUser.followers}
           />
-          <button onClick={fetchData}>Search</button>
-        </form>
-        <Home
-          name={githubUser.login}
-          avatar={githubUser.avatar_url}
-          userName={githubUser.name}
-          userCompany={githubUser.company}
-          userFollowers={githubUser.followers}
-        />
-        ;
+        )}
+        {buttonText === "Repositories :" && (
+          <Repositories repositoriesUrl={githubUser.repos_url} />
+        )}
+        {buttonText === "Gist" && <Gist />}
+        {buttonText === "Follower" && <Followers />}
       </div>
     </div>
   );
