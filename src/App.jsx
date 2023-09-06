@@ -34,7 +34,7 @@ function App() {
       </div>
       <div className="buttons">
         <button onClick={() => setButtonText("Home")}>HOME</button>
-        <button onClick={() => setButtonText("Repositories :")}>
+        <button onClick={() => setButtonText("Repositories")}>
           REPOSITORIES
         </button>
         <button onClick={() => setButtonText("Gist")}>GIST</button>
@@ -61,11 +61,13 @@ function App() {
             userFollowers={githubUser.followers}
           />
         )}
-        {buttonText === "Repositories :" && (
+        {buttonText === "Repositories" && (
           <Repositories repositoriesUrl={githubUser.repos_url} />
         )}
-        {buttonText === "Gist" && <Gist />}
-        {buttonText === "Follower" && <Followers />}
+        {buttonText === "Gist" && <Gist gistUrl={githubUser.url + "/gists"} />}
+        {buttonText === "Follower" && (
+          <Followers followersUrl={githubUser.followers_url} />
+        )}
       </div>
     </div>
   );

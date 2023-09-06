@@ -8,8 +8,12 @@ function Repositories(props) {
 
   useEffect(() => {
     (async () => {
-      const result = await axios.get(props.repositoriesUrl);
-      setReposList(result.data);
+      try {
+        const result = await axios.get(props.repositoriesUrl);
+        setReposList(result.data);
+      } catch (error) {
+        console.error("Error fetching followers:", error);
+      }
     })();
   }, [props.repositoriesUrl]);
 
@@ -17,7 +21,7 @@ function Repositories(props) {
     <div>
       <h2>Repositories :</h2>
       <ul>
-        {reposList.length === -1
+        {reposList.length === 0
           ? "No Repository Found"
           : reposList.map((repository) => (
               <div key={repository.id}>
