@@ -11,6 +11,9 @@ function App() {
   const [username, setUsername] = useState("");
   const [githubUser, setGithubUser] = useState({});
   const [buttonText, setButtonText] = useState("Home");
+  const [reposList, setReposList] = useState([]);
+  const [gistList, setGistList] = useState([]);
+  const [followersList, setFollowersList] = useState([]);
 
   const handleChange = (e) => {
     setUsername(e.target.value);
@@ -26,7 +29,15 @@ function App() {
     console.log(username);
     setGithubUser(res.data);
   };
-
+  const handleRepositories = (e) => {
+    setReposList(e);
+  };
+  const handleGist = (e) => {
+    setGistList(e);
+  };
+  const handleFollowers = (e) => {
+    setFollowersList(e);
+  };
   return (
     <div>
       <div className="Heading">
@@ -34,11 +45,24 @@ function App() {
       </div>
       <div className="buttons">
         <button onClick={() => setButtonText("Home")}>HOME</button>
-        <button onClick={() => setButtonText("Repositories")}>
+        <button
+          onClick={() => setButtonText("Repositories")}
+          disabled={!githubUser.login}
+        >
           REPOSITORIES
         </button>
-        <button onClick={() => setButtonText("Gist")}>GIST</button>
-        <button onClick={() => setButtonText("Follower")}>FOLLOWERS</button>
+        <button
+          onClick={() => setButtonText("Gist")}
+          disabled={!githubUser.login}
+        >
+          GIST
+        </button>
+        <button
+          onClick={() => setButtonText("Follower")}
+          disabled={!githubUser.login}
+        >
+          FOLLOWERS
+        </button>
       </div>
       <div>
         {buttonText === "Home" && (
@@ -62,11 +86,25 @@ function App() {
           />
         )}
         {buttonText === "Repositories" && (
-          <Repositories repositoriesUrl={githubUser.repos_url} />
+          <Repositories
+            repositoriesUrl={githubUser.repos_url}
+            handleRepositories={handleRepositories}
+            reposList={reposList}
+          />
         )}
-        {buttonText === "Gist" && <Gist gistUrl={githubUser.url + "/gists"} />}
+        {buttonText === "Gist" && (
+          <Gist
+            gistUrl={githubUser.url + "/gists"}
+            handleGist={handleGist}
+            gistList={gistList}
+          />
+        )}
         {buttonText === "Follower" && (
-          <Followers followersUrl={githubUser.followers_url} />
+          <Followers
+            followersUrl={githubUser.followers_url}
+            handleFollowers={handleFollowers}
+            followersList={followersList}
+          />
         )}
       </div>
     </div>

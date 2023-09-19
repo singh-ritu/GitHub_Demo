@@ -4,15 +4,15 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 function Repositories(props) {
-  const [reposList, setReposList] = useState([]);
-
   useEffect(() => {
     (async () => {
-      try {
-        const result = await axios.get(props.repositoriesUrl);
-        setReposList(result.data);
-      } catch (error) {
-        console.error("Error fetching followers:", error);
+      if (props.reposList.length === 0) {
+        try {
+          const result = await axios.get(props.repositoriesUrl);
+          props.handleRepositories(result.data);
+        } catch (error) {
+          console.error("Error fetching followers:", error);
+        }
       }
     })();
   }, [props.repositoriesUrl]);
@@ -21,9 +21,9 @@ function Repositories(props) {
     <div>
       <h2>Repositories :</h2>
       <ul>
-        {reposList.length === 0
+        {props.reposList.length === 0
           ? "No Repository Found"
-          : reposList.map((repository) => (
+          : props.reposList.map((repository) => (
               <div key={repository.id}>
                 <a href={repository.html_url} target="_blank" rel="noreferrer">
                   {repository.name}
