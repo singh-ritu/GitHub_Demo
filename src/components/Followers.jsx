@@ -3,13 +3,13 @@ import axios from "axios";
 function Followers(props) {
   useEffect(() => {
     (async () => {
-      // if (props.followersList.lenght === 0) {
-      try {
-        const result = await axios.get(props.followersUrl);
-        props.handleFollowers(result.data);
-      } catch (error) {
-        console.error("Error fetching followers:", error);
-        // }
+      if (props.followersList.lenght === 0) {
+        try {
+          const result = await axios.get(props.followersUrl);
+          props.handleFollowers(result.data);
+        } catch (error) {
+          console.error("Error fetching followers:", error);
+        }
       }
     })();
   }, [props.followersUrl]);
