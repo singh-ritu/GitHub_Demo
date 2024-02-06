@@ -3,7 +3,7 @@ import axios from "axios";
 function Followers(props) {
   useEffect(() => {
     (async () => {
-      if (props.followersList.lenght === 0) {
+      if (props.followersList.length === 0) {
         try {
           const result = await axios.get(props.followersUrl);
           props.handleFollowers(result.data);

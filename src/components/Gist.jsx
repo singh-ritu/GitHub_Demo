@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 function Gist(props) {
   useEffect(() => {
     (async () => {
-      if (props.gistlist.length === 0) {
+      if (props.gistList.length === 0) {
         try {
           const result = await axios.get(props.gistUrl);
           props.handleGist(result.data);
