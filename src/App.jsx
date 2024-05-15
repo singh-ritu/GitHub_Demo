@@ -44,38 +44,46 @@ function App() {
         <h1>GITHUB VIEWER</h1>
       </div>
       <div className="buttons">
-        <button onClick={() => setButtonText("Home")}>HOME</button>
+        <button onClick={() => setButtonText("Home")} className="nav-btn">
+          HOME
+        </button>
         <button
           onClick={() => setButtonText("Repositories")}
           disabled={!githubUser.login}
+          className="nav-btn"
         >
           REPOSITORIES
         </button>
         <button
           onClick={() => setButtonText("Gist")}
           disabled={!githubUser.login}
+          className="nav-btn"
         >
           GIST
         </button>
         <button
           onClick={() => setButtonText("Follower")}
           disabled={!githubUser.login}
+          className="nav-btn"
         >
           FOLLOWERS
         </button>
       </div>
       <div>
-        {buttonText === "Home" && (
-          <form className="search-user">
-            <input
-              type="text"
-              placeholder="Enter a Username..."
-              value={username}
-              onChange={handleChange}
-            />
-            <button onClick={fetchData}>Search</button>
-          </form>
-        )}
+        <div className="search-bar">
+          {buttonText === "Home" && (
+            <form className="search-user">
+              <input
+                type="text"
+                placeholder="Enter a Username..."
+                value={username}
+                onChange={handleChange}
+                className="input"
+              />
+              <button onClick={fetchData}>Search</button>
+            </form>
+          )}
+        </div>
         {buttonText === "Home" && Object.keys(githubUser).length > 0 && (
           <Home
             name={githubUser.login}
